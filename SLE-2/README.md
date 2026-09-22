@@ -24,7 +24,6 @@ If running scripts directly via terminal scripts throws a "Python not found" exc
 ```powershell
 winget install --id Python.Python.3.12 --source winget
 ```
-*Note: Make sure to restart your terminal window or VS Code window after installation complete notifications finish to update structural global pathways.*
 
 ## 🚀 Running the Agent
 
