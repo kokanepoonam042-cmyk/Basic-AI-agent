@@ -1,0 +1,32 @@
+# Contribution Log
+
+## Project: Basic AI Agent
+
+### Component: SLE2 – Empirical Performance Analysis
+
+| Date | Team Member | Contribution | Status |
+|------|-------------|--------------|--------|
+| 22-09-2026 | Poonam Kokane | Worked on the SLE2 component and studied empirical performance analysis beyond Big-O. | Completed |
+| 22-09-2026 | Poonam Kokane | Implemented and updated the `search.py` program for search algorithm performance testing. | Completed |
+| 22-09-2026 | Poonam Kokane | Compared the performance of search algorithms using different input sizes. | Completed |
+| 22-09-2026 | Poonam Kokane | Set up `py-spy` for Python performance profiling and generated the profiling output. | In Progress |
+| 22-09-2026 | Poonam Kokane | Prepared `result.txt` to record empirical execution-time results. | In Progress |
+| 22-09-2026 | Poonam Kokane | Generated `profile.svg` to visualize program execution using a py-spy flame graph. | In Progress |
+| 22-09-2026 | Poonam Kokane | Documented observations about time complexity, actual execution time, and hardware-related performance. | In Progress |
+
+## Files Contributed
+
+The following files are part of the SLE2 component:
+
+- `SLE2/search.py` – Search algorithm implementation and performance testing.
+- `SLE2/result.txt` – Recorded empirical performance results.
+- `SLE2/profile.svg` – py-spy profiling/flame graph output.
+
+## Summary
+
+The SLE2 component focuses on practical performance analysis of search algorithms. 
+The work includes implementing the algorithm, measuring execution time for different 
+input sizes, and using `py-spy` to observe where the Python program spends its CPU time.
+
+The results are used to compare theoretical complexity with practical performance 
+on real hardware.
