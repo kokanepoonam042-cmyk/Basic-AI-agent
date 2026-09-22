@@ -1,106 +1,263 @@
+
+print("Name : Poonam Kokane")
+print("25UAM027")
+
 import time
+from collections import deque
 
-# A graph representing a small maze layout (16 nodes total)
-MAZE_GRAPH = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F', 'G'],
-    'D': ['H'],
-    'E': ['I', 'J'],
-    'F': ['K'],
-    'G': ['L', 'M'],
-    'H': [],
-    'I': [],
-    'J': ['N'],
-    'K': [],
-    'L': ['O'],
-    'M': ['P'],
-    'N': [],
-    'O': [],
-    'P': []
-}
+# ============================================================
+# SLE-2: Empirical Performance Analysis
+# BFS vs DFS
+# ============================================================
 
-def profile_bfs(graph, start, target):
+NUM_NODES = 1200
+
+
+def create_graph(num_nodes):
+    """
+    Create a simple connected graph with 1200 nodes.
+    Each node is connected to the next node and,
+    where possible, another nearby node.
+    """
+    graph = {i: [] for i in range(num_nodes)}
+
+    for i in range(num_nodes - 1):
+        graph[i].append(i + 1)
+
+        if i + 2 < num_nodes:
+            graph[i].append(i + 2)
+
+    return graph
+
+
+def bfs(graph, start, target):
+    """
+    Breadth-First Search.
+    Returns the number of nodes expanded.
+    """
     node_count = 0
     visited = set()
-    queue = [[start]]
-    
-    if start == target:
-        return 1
-        
+    queue = deque([start])
+
     while queue:
-        path = queue.pop(0)
-        node = path[-1]
+        node = queue.popleft()
+
+        if node in visited:
+            continue
+
+        visited.add(node)
         node_count += 1
-        
+
         if node == target:
             return node_count
-            
-        if node not in visited:
-            visited.add(node)
-            for neighbor in graph.get(node, []):
-                new_path = list(path)
-                new_path.append(neighbor)
-                queue.append(new_path)
+
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+
     return node_count
 
-def profile_dfs(graph, start, target):
+
+def dfs(graph, start, target):
+    """
+    Depth-First Search.
+    Returns the number of nodes expanded.
+    """
     node_count = 0
     visited = set()
-    stack = [[start]]
-    
+    stack = [start]
+
     while stack:
-        path = stack.pop()
-        node = path[-1]
+        node = stack.pop()
+
+        if node in visited:
+            continue
+
+        visited.add(node)
         node_count += 1
-        
+
         if node == target:
             return node_count
-            
-        if node not in visited:
-            visited.add(node)
-            for neighbor in graph.get(node, []):
-                new_path = list(path)
-                new_path.append(neighbor)
-                stack.append(new_path)
+
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                stack.append(neighbor)
+
     return node_count
 
-def run_scenario(graph, start, target, scenario_name, runs=1000):
-    # Benchmark BFS
-    start_time = time.perf_counter()
-    for _ in range(runs):
-        bfs_nodes = profile_bfs(graph, start, target)
-    end_time = time.perf_counter()
-    avg_bfs_time = ((end_time - start_time) / runs) * 1000
 
-    # Benchmark DFS
-    start_time = time.perf_counter()
-    for _ in range(runs):
-        dfs_nodes = profile_dfs(graph, start, target)
-    end_time = time.perf_counter()
-    avg_dfs_time = ((end_time - start_time) / runs) * 1000
+def measure_algorithm(algorithm, graph, start, target):
+    """
+    Measure one execution using perf_counter().
+    Returns time in milliseconds and number of nodes expanded.
+    """
 
-    print(f"\n--- {scenario_name.upper()} CASE (Target: '{target}') ---")
-    print(f"BFS Time: {avg_bfs_time:.5f} ms | Nodes Expanded: {bfs_nodes}")
-    print(f"DFS Time: {avg_dfs_time:.5f} ms | Nodes Expanded: {dfs_nodes}")
-    
-    return avg_bfs_time, bfs_nodes, avg_dfs_time, dfs_nodes
+    start_time = time.perf_counter()
+
+    nodes_expanded = algorithm(graph, start, target)
+
+    end_time = time.perf_counter()
+
+    elapsed_ms = (end_time - start_time) * 1000
+
+    return elapsed_ms, nodes_expanded
+
+
+def run_experiment(graph, start, target, case_name, runs=3):
+
+    bfs_times = []
+    dfs_times = []
+
+    bfs_nodes = []
+    dfs_nodes = []
+
+    print("\n" + "=" * 60)
+    print(f"{case_name.upper()} CASE")
+    print(f"Start Node : {start}")
+    print(f"Target Node: {target}")
+    print("=" * 60)
+
+    for run in range(1, runs + 1):
+
+        # ---------------- BFS ----------------
+        bfs_time, bfs_count = measure_algorithm(
+            bfs,
+            graph,
+            start,
+            target
+        )
+
+        # ---------------- DFS ----------------
+        dfs_time, dfs_count = measure_algorithm(
+            dfs,
+            graph,
+            start,
+            target
+        )
+
+        bfs_times.append(bfs_time)
+        dfs_times.append(dfs_time)
+
+        bfs_nodes.append(bfs_count)
+        dfs_nodes.append(dfs_count)
+
+        print(f"\nRun {run}")
+        print(f"BFS Time : {bfs_time:.5f} ms")
+        print(f"DFS Time : {dfs_time:.5f} ms")
+        print(f"BFS Nodes: {bfs_count}")
+        print(f"DFS Nodes: {dfs_count}")
+
+    # Calculate averages
+    avg_bfs_time = sum(bfs_times) / runs
+    avg_dfs_time = sum(dfs_times) / runs
+
+    avg_bfs_nodes = sum(bfs_nodes) / runs
+    avg_dfs_nodes = sum(dfs_nodes) / runs
+
+    print("\n" + "-" * 60)
+    print("AVERAGE")
+    print("-" * 60)
+
+    print(f"BFS Average Time : {avg_bfs_time:.5f} ms")
+    print(f"DFS Average Time : {avg_dfs_time:.5f} ms")
+
+    print(f"BFS Average Nodes: {avg_bfs_nodes:.2f}")
+    print(f"DFS Average Nodes: {avg_dfs_nodes:.2f}")
+
+    return {
+        "case": case_name,
+        "bfs_time": avg_bfs_time,
+        "dfs_time": avg_dfs_time,
+        "bfs_nodes": avg_bfs_nodes,
+        "dfs_nodes": avg_dfs_nodes
+    }
+
 
 def main():
-    print("==================================================")
-    print("      LAUNCHING COMPREHENSIVE CASE ANALYSIS")
-    print("==================================================")
-    
-    # 1. Best Case: Target is near the root node
-    run_scenario(MAZE_GRAPH, 'A', 'B', "Best")
-    
-    # 2. Average Case: Target is deep down the right branch
-    run_scenario(MAZE_GRAPH, 'A', 'P', "Average")
-    
-    # 3. Worst Case: Target is non-existent (Full Traversal)
-    run_scenario(MAZE_GRAPH, 'A', 'Z', "Worst")
-    
-    print("\n==================================================")
+
+    print("=" * 60)
+    print("SLE-2 EMPIRICAL PERFORMANCE ANALYSIS")
+    print("BFS vs DFS")
+    print("=" * 60)
+
+    # Create 1200-node graph
+    graph = create_graph(NUM_NODES)
+
+    start_node = 0
+
+    # --------------------------------------------------------
+    # BEST CASE
+    # Target is very close to the start
+    # --------------------------------------------------------
+
+    best_result = run_experiment(
+        graph,
+        start_node,
+        1,
+        "Best"
+    )
+
+    # --------------------------------------------------------
+    # AVERAGE CASE
+    # Target is somewhere in the middle
+    # --------------------------------------------------------
+
+    average_result = run_experiment(
+        graph,
+        start_node,
+        600,
+        "Average"
+    )
+
+    # --------------------------------------------------------
+    # WORST CASE
+    # Target does not exist
+    # --------------------------------------------------------
+
+    worst_result = run_experiment(
+        graph,
+        start_node,
+        9999,
+        "Worst"
+    )
+
+    # --------------------------------------------------------
+    # FINAL SUMMARY
+    # --------------------------------------------------------
+
+    print("\n")
+    print("=" * 70)
+    print("FINAL SUMMARY")
+    print("=" * 70)
+
+    results = [
+        best_result,
+        average_result,
+        worst_result
+    ]
+
+    print(
+        f"{'Case':<12}"
+        f"{'BFS(ms)':<15}"
+        f"{'DFS(ms)':<15}"
+        f"{'BFS Nodes':<15}"
+        f"{'DFS Nodes':<15}"
+    )
+
+    print("-" * 70)
+
+    for result in results:
+
+        print(
+            f"{result['case']:<12}"
+            f"{result['bfs_time']:<15.5f}"
+            f"{result['dfs_time']:<15.5f}"
+            f"{result['bfs_nodes']:<15.2f}"
+            f"{result['dfs_nodes']:<15.2f}"
+        )
+
+    print("=" * 70)
+
 
 if __name__ == "__main__":
     main()
