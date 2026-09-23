@@ -1,32 +1,40 @@
-# Contribution Log
+# AI Contribution Log
 
-## Project: Basic AI Agent
+**Course:** 02AML204 – Introduction to Artificial Intelligence  
+**Student Name:** Poonam Kokane  
+**Student ID:** 25UAM027  
+**Component:** SLE-2 Profiling Evaluation (BFS vs DFS)  
 
-### Component: SLE2 – Empirical Performance Analysis
+---
 
-| Date | Team Member | Contribution | Status |
-|------|-------------|--------------|--------|
-| 22-09-2026 | Poonam Kokane | Worked on the SLE2 component and studied empirical performance analysis beyond Big-O. | Completed |
-| 22-09-2026 | Poonam Kokane | Implemented and updated the `search.py` program for search algorithm performance testing. | Completed |
-| 22-09-2026 | Poonam Kokane | Compared the performance of search algorithms using different input sizes. | Completed |
-| 22-09-2026 | Poonam Kokane | Set up `py-spy` for Python performance profiling and generated the profiling output. | In Progress |
-| 22-09-2026 | Poonam Kokane | Prepared `result.txt` to record empirical execution-time results. | In Progress |
-| 22-09-2026 | Poonam Kokane | Generated `profile.svg` to visualize program execution using a py-spy flame graph. | In Progress |
-| 22-09-2026 | Poonam Kokane | Documented observations about time complexity, actual execution time, and hardware-related performance. | In Progress |
+## 🤖 1. AI Assistance Breakdown
 
-## Files Contributed
+### A. Conceptual & Design Guidance
+* **Task:** Clarified the structural requirements of the SLE-2 empirical profiling standard.
+* **Details:** Assisted in organizing the lab layout to cleanly compare Breadth-First Search (BFS) and Depth-First Search (DFS) variants across distinct execution tiers (Best, Average, Worst cases).
 
-The following files are part of the SLE2 component:
+### B. Documentation & Markdown Formatting
+* **Task:** Generated clean, structured reporting metrics for the project documentation.
+* **Details:** Parsed visual terminal telemetry output into Markdown tables for the `README.md` file, calculating execution averages across Run 1, Run 2, and Run 3 for all three benchmark environments.
 
-- `SLE2/search.py` – Search algorithm implementation and performance testing.
-- `SLE2/result.txt` – Recorded empirical performance results.
-- `SLE2/profile.svg` – py-spy profiling/flame graph output.
+---
 
-## Summary
+## 👩‍💻 2. Student Independent Contribution
 
-The SLE2 component focuses on practical performance analysis of search algorithms. 
-The work includes implementing the algorithm, measuring execution time for different 
-input sizes, and using `py-spy` to observe where the Python program spends its CPU time.
+### A. Environment Configuration & Setup
+* Installed and configured the **Python 3.14** local execution environment.
+* Created, configured, and managed the `coding_everyday` development workspace and initial project repository files (`qq.py`).
 
-The results are used to compare theoretical complexity with practical performance 
-on real hardware.
+### B. Script Execution & Telemetry Acquisition
+* Triggered the live benchmark iterations inside the VS Code Terminal environment.
+* Monitored runtime performance metrics and verified the success states across the Best Case (Target 1), Average Case (Target 600), and Worst Case (Target 9999) problem matrices.
+* Extracted and captured raw runtime logs directly from the terminal console for documentation validation.
+
+### C. Version Control & Repository Management
+* Initialized local Git tracking and resolved browser-based authentication challenges.
+* Managed local staging, branch commits (`git add .`, `git commit`), and synchronized terminal files to the remote GitHub repository.
+
+---
+
+## 📜 3. Final Affirmation
+The core logic configurations were evaluated by the AI assistant to optimize report readability. However, all physical script operations, local runtime checks, terminal profiling executions, and code pushing steps were performed completely and independently by the student.
